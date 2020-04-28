@@ -17,7 +17,7 @@ use Throwable;
 
 class ExceptionHandlerFactory
 {
-    public static function create(\Closure $closure): ExceptionHandler
+    public function create(\Closure $closure): ExceptionHandler
     {
         return new class($closure) extends ExceptionHandler {
             /**

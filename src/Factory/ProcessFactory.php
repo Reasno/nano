@@ -17,7 +17,7 @@ use Psr\Container\ContainerInterface;
 
 class ProcessFactory
 {
-    public static function create(\Closure $closure): AbstractProcess
+    public function create(\Closure $closure): AbstractProcess
     {
         $container = ApplicationContext::getContainer();
         return new class($container, $closure) extends AbstractProcess {

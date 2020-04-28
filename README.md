@@ -8,14 +8,16 @@ That's all you need.
 
 ```php
 <?php
+use Hyperf\Nano\ContainerProxy;
 use Hyperf\Nano\Factory\AppFactory;
 
-require_once __DIR__ . '/../vendor/autoload.php';
+require_once __DIR__ . '/vendor/autoload.php';
 
 $app = AppFactory::create();
 $app->get('/{name}', function ($name) {
+    /** @var ContainerProxy $this */
     return $this->response->json([
-        'hello' => $name,
+        'message' => "hello, $name",
         'method' => $this->request->getMethod()
     ]);
 });

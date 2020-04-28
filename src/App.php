@@ -65,7 +65,7 @@ class App
         $this->dispatcherFactory = $this->container->get(DispatcherFactory::class);
         $this->bound = $this->container->has(BoundInterface::class)
             ? $this->container->get(BoundInterface::class)
-            : new Bound($this->container);
+            : new ContainerProxy($this->container);
     }
 
     public function __call($name, $arguments)
@@ -97,6 +97,15 @@ class App
     }
 
     /**
+     * Get the dependency injection container
+     * @return ContainerInterface
+     */
+    public function getContainer() : ContainerInterface
+    {
+        return $this->container;
+    }
+
+    /**
      * Add a middleware globally.
      * @param callable|MiddlewareInterface|string $middleware
      */
@@ -108,9 +117,10 @@ class App
         }
 
         $middleware = Closure::fromCallable($middleware);
+        $middlewareFactory = $this->container->get(MiddlewareFactory::class);
         $this->appendConfig(
             'middlewares.' . $this->serverName,
-            MiddlewareFactory::create($middleware->bindTo($this->bound, $this->bound))
+            $middlewareFactory->create($middleware->bindTo($this->bound, $this->bound))
         );
     }
 
@@ -126,7 +136,8 @@ class App
         }
 
         $exceptionHandler = Closure::fromCallable($exceptionHandler);
-        $handler = ExceptionHandlerFactory::create($exceptionHandler->bindTo($this->bound, $this->bound));
+        $exceptionHandlerFactory = $this->container->get(ExceptionHandlerFactory::class);
+        $handler = $exceptionHandlerFactory->create($exceptionHandler->bindTo($this->bound, $this->bound));
         $handlerId = spl_object_hash($handler);
         $this->container->set($handlerId, $handler);
         $this->appendConfig(
@@ -185,7 +196,8 @@ class App
         }
 
         $command = Closure::fromCallable($command);
-        $handler = CommandFactory::create($name, $command->bindTo($this->bound, $this->bound));
+        $commandFactory = $this->container->get(CommandFactory::class);
+        $handler = $commandFactory->create($name, $command->bindTo($this->bound, $this->bound));
         $handlerId = spl_object_hash($handler);
         $this->container->set($handlerId, $handler);
         $this->appendConfig(
@@ -237,7 +249,8 @@ class App
 
         $callback = \Closure::fromCallable($process);
         $callback = $callback->bindTo($this->bound, $this->bound);
-        $process = ProcessFactory::create($callback);
+        $processFactory = $this->container->get(ProcessFactory::class);
+        $process = $processFactory->create($callback);
         $processId = spl_object_hash($process);
         $this->container->set($processId, $process);
         $this->appendConfig(
@@ -299,21 +312,21 @@ class App
     {
         $config = $this->config->get($key);
 
-        // config is numeric array
-        if (is_array($config) && Arr::isAssoc($config)) {
-            array_push($config, $configValues);
-            $configValues = $config;
+        if (! is_array($config)){
+            $this->config->set($key, $configValues);
+            return;
         }
 
-        $this->config->set($key, $configValues);
+        $this->config->set($key, array_merge($configValues, $config));
     }
 
     private function convertClosureToMiddleware(array &$middlewares)
     {
+        $middlewareFactory = $this->container->get(MiddlewareFactory::class);
         foreach ($middlewares as &$middleware) {
             if ($middleware instanceof \Closure) {
                 $middleware = $middleware->bindTo($this->bound, $this->bound);
-                $middleware = MiddlewareFactory::create($middleware);
+                $middleware = $middlewareFactory->create($middleware);
             }
         }
     }
