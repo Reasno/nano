@@ -4,27 +4,22 @@ Scaling Hyperf down to a single file.
 
 ## Example
 
-That's all you need.
-
 ```php
 <?php
 // index.php
-use Hyperf\Nano\ContainerProxy;
 use Hyperf\Nano\Factory\AppFactory;
 
 require_once __DIR__ . '/vendor/autoload.php';
 
 $app = AppFactory::create('0.0.0.0', 9051);
 $app->get('/', function () {
-    /** @var ContainerProxy $this */
     $user = $this->request->input('user', 'nano');
     $method = $this->request->getMethod();
-
     return [
         'message' => "hello {$user}",
         'method' => $method,
     ];
-});
+})
 $app->run();
 ```
 
@@ -33,6 +28,8 @@ Run
 ```bash
 php index.php start
 ```
+
+That's all you need.
 
 ## Feature
 
@@ -80,7 +77,6 @@ require_once __DIR__ . '/vendor/autoload.php';
 $app = AppFactory::create();
 $app->getContainer()->set(Foo::class, new Foo());
 $app->get('/', function () {
-    /** @var ContainerProxy $this */
     return $this->request->getAttribute('key');
 });
 $app->addMiddleware(function ($request, $handler) {
@@ -181,7 +177,7 @@ $app->addCrontab('* * * * * *', function(){
 $app->run();
 ```
 
-### Use existing Hyperf Component.
+### Use Hyperf Component.
 
 ```php
 <?php
