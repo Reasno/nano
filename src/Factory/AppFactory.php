@@ -1,25 +1,33 @@
 <?php
 
+declare(strict_types=1);
+/**
+ * This file is part of Hyperf.
+ *
+ * @link     https://www.hyperf.io
+ * @document https://doc.hyperf.io
+ * @contact  group@hyperf.io
+ * @license  https://github.com/hyperf/hyperf/blob/master/LICENSE
+ */
+namespace Hyperf\Nano\Factory;
 
-namespace Hyperf\Nano;
-
-
-use Composer\Factory;
 use Hyperf\Config\Config;
 use Hyperf\Config\ProviderConfig;
 use Hyperf\Contract\ConfigInterface;
+use Hyperf\Contract\ContainerInterface;
 use Hyperf\Contract\StdoutLoggerInterface;
 use Hyperf\Di\Container;
 use Hyperf\Di\Definition\DefinitionSource;
 use Hyperf\Di\Definition\ScanConfig;
 use Hyperf\HttpServer\Router\DispatcherFactory;
+use Hyperf\Nano\App;
 use Hyperf\Utils\ApplicationContext;
 use Psr\Log\LogLevel;
 
 class AppFactory
 {
-    public static function create($host = '0.0.0.0', $port = 9501, $hookFlags = SWOOLE_HOOK_ALL){
-
+    public static function create(string $host = '0.0.0.0', int $port = 9501, $hookFlags = SWOOLE_HOOK_ALL)
+    {
         // Setting ini and flags
         ini_set('display_errors', 'on');
         ini_set('display_startup_errors', 'on');
@@ -30,9 +38,17 @@ class AppFactory
         ! defined('SWOOLE_HOOK_FLAGS') && define('SWOOLE_HOOK_FLAGS', $hookFlags);
 
         // Prepare container
+        $container = self::parepareContainer($host, $port);
+        ApplicationContext::setContainer($container);
+
+        return new App($container);
+    }
+
+    public static function parepareContainer(string $host, int $port): ContainerInterface
+    {
         $container = new Container(new DefinitionSource([], new ScanConfig()));
         $config = new Config(ProviderConfig::load());
-        $config->set('server', include __DIR__.'/Server.php');
+        $config->set('server', include __DIR__ . '/Server.php');
         $config->set('server.servers.0.host', $host);
         $config->set('server.servers.0.port', $port);
         $config->set(StdoutLoggerInterface::class, [
@@ -45,16 +61,13 @@ class AppFactory
                 LogLevel::INFO,
                 LogLevel::NOTICE,
                 LogLevel::WARNING,
-            ]
+            ],
         ]);
         $container->set(ConfigInterface::class, $config);
         foreach ($config->get('dependencies') as $key => $value) {
             $container->define($key, $value);
         }
         $container->define(DispatcherFactory::class, DispatcherFactory::class);
-
-        ApplicationContext::setContainer($container);
-        return new App($container);
+        return $container;
     }
-
 }

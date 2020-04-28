@@ -1,17 +1,32 @@
 <?php
 
-
+declare(strict_types=1);
+/**
+ * This file is part of Hyperf.
+ *
+ * @link     https://www.hyperf.io
+ * @document https://doc.hyperf.io
+ * @contact  group@hyperf.io
+ * @license  https://github.com/hyperf/hyperf/blob/master/LICENSE
+ */
 namespace Hyperf\Nano;
 
+use Closure;
 use Hyperf\Contract\ConfigInterface;
+use Hyperf\Contract\ContainerInterface;
+use Hyperf\Crontab\Crontab;
+use Hyperf\Crontab\Process\CrontabDispatcherProcess;
 use Hyperf\HttpServer\Router\DispatcherFactory;
-use Psr\Container\ContainerInterface;
+use Hyperf\Nano\Factory\CommandFactory;
+use Hyperf\Nano\Factory\CronFactory;
+use Hyperf\Nano\Factory\ExceptionHandlerFactory;
+use Hyperf\Nano\Factory\MiddlewareFactory;
+use Hyperf\Nano\Factory\ProcessFactory;
+use Hyperf\Utils\Arr;
 use Psr\EventDispatcher\ListenerProviderInterface;
 use Psr\Http\Server\MiddlewareInterface;
 
 /**
- * @method addRoute($httpMethod, string $route, $handler, array $options = [])
- * @method addGroup($prefix, callable $callback, array $options = [])
  * @method get($route, $handler, array $options = [])
  * @method post($route, $handler, array $options = [])
  * @method put($route, $handler, array $options = [])
@@ -25,14 +40,21 @@ class App
      * @var ContainerInterface
      */
     protected $container;
+
     /**
      * @var ConfigInterface
      */
     protected $config;
+
     /**
      * @var DispatcherFactory
      */
     protected $dispatcherFactory;
+
+    /**
+     * @var BoundInterface
+     */
+    protected $bound;
 
     private $serverName = 'http';
 
@@ -41,10 +63,22 @@ class App
         $this->container = $container;
         $this->config = $this->container->get(ConfigInterface::class);
         $this->dispatcherFactory = $this->container->get(DispatcherFactory::class);
+        $this->bound = $this->container->has(BoundInterface::class)
+            ? $this->container->get(BoundInterface::class)
+            : new Bound($this->container);
+    }
+
+    public function __call($name, $arguments)
+    {
+        $router = $this->dispatcherFactory->getRouter($this->serverName);
+        if ($arguments[1] instanceof \Closure) {
+            $arguments[1] = $arguments[1]->bindTo($this->bound, $this->bound);
+        }
+        return $router->{$name}(...$arguments);
     }
 
     /**
-     * Run the application
+     * Run the application.
      */
     public function run()
     {
@@ -53,99 +87,190 @@ class App
     }
 
     /**
-     * Config the application using arrays
-     * @param array $configs
+     * Config the application using arrays.
      */
     public function config(array $configs)
     {
         foreach ($configs as $key => $value) {
-            $this->config->set($key, $value);
+            $this->addConfig($key, $value);
         }
     }
 
     /**
-     * Set a value in the DI container
-     * @param string $identifier
-     * @param mixed $instance
-     */
-    public function set(string $identifier, $instance)
-    {
-        if ($this->container instanceof \Hyperf\Contract\ContainerInterface){
-            $this->container->set($identifier, $instance);
-        }
-        throw new \InvalidArgumentException("set method is supported when container implements \\Hyperf\\Contract\\ContainerInterface");
-    }
-
-    /**
-     * Add a middleware globally
-     * @param MiddlewareInterface|string|\Closure $middleware
+     * Add a middleware globally.
+     * @param callable|MiddlewareInterface|string $middleware
      */
     public function addMiddleware($middleware)
     {
-        if ($middleware instanceof MiddlewareInterface|| is_string($middleware)){
-            $this->appendConfig('middlewares.'.$this->serverName, $middleware);
+        if ($middleware instanceof MiddlewareInterface || is_string($middleware)) {
+            $this->appendConfig('middlewares.' . $this->serverName, $middleware);
             return;
         }
 
-        if ($middleware instanceof \Closure){
-            $this->appendConfig(
-                'middlewares.'.$this->serverName,
-                MiddlewareFactory::create($middleware->bindTo($this->container))
-            );
-            return;
-        }
-
-        throw new \InvalidArgumentException("not a valid middleware");
+        $middleware = Closure::fromCallable($middleware);
+        $this->appendConfig(
+            'middlewares.' . $this->serverName,
+            MiddlewareFactory::create($middleware->bindTo($this->bound, $this->bound))
+        );
     }
 
     /**
-     * Add an exception handler globally
-     * @param string|\Closure $middleware
+     * Add an exception handler globally.
+     * @param callable|string $exceptionHandler
      */
     public function addExceptionHandler($exceptionHandler)
     {
-        if (is_string($exceptionHandler)){
-            $this->appendConfig('exceptions.handler'.$this->serverName, $exceptionHandler);
+        if (is_string($exceptionHandler)) {
+            $this->appendConfig('exceptions.handler' . $this->serverName, $exceptionHandler);
             return;
         }
 
-        if ($exceptionHandler instanceof \Closure){
-            $handler = ExceptionHandlerFactory::create($exceptionHandler->bindTo($this->container));
-            $handlerId = spl_object_hash($handler);
-            $this->container->set($handlerId, $handler);
-            $this->appendConfig(
-                'exceptions.handler.'.$this->serverName,
-                $handlerId
-            );
-            return;
-        }
-
-        throw new \InvalidArgumentException("not a valid exception handler");
+        $exceptionHandler = Closure::fromCallable($exceptionHandler);
+        $handler = ExceptionHandlerFactory::create($exceptionHandler->bindTo($this->bound, $this->bound));
+        $handlerId = spl_object_hash($handler);
+        $this->container->set($handlerId, $handler);
+        $this->appendConfig(
+            'exceptions.handler.' . $this->serverName,
+            $handlerId
+        );
     }
 
     /**
-     * Add an exception handler globally
-     * @param string|\Closure|null $listener
+     * Add an listener globally.
+     * @param null|callable|string $listener
      */
     public function addListener(string $event, $listener = null, int $priority = 1)
     {
-        if ($listener === null){
+        if ($listener === null) {
             $listener = $event;
         }
 
-        if (is_string($listener)){
+        if (is_string($listener)) {
             $this->appendConfig('listeners', $listener);
             return;
         }
 
-        if ($listener instanceof \Closure){
-            $listener = $listener->bindTo($this->container);
-            $provider = $this->container->get(ListenerProviderInterface::class);
-            $provider->on($event, $listener, $priority);
+        $listener = Closure::fromCallable($listener);
+        $listener = $listener->bindTo($this->bound, $this->bound);
+        $provider = $this->container->get(ListenerProviderInterface::class);
+        $provider->on($event, $listener, $priority);
+    }
+
+    /**
+     * Add a route group.
+     * @param array|string $prefix
+     */
+    public function addGroup($prefix, callable $callback, array $options = [])
+    {
+        $router = $this->dispatcherFactory->getRouter($this->serverName);
+        if (isset($options['middleware'])) {
+            $this->convertClosureToMiddleware($options['middleware']);
+        }
+        return $router->addGroup($prefix, $callback, $options);
+    }
+
+    /**
+     * Add a new command.
+     * @param null|callable|string $command
+     */
+    public function addCommand(string $name, $command = null)
+    {
+        if ($command === null) {
+            $command = $name;
+        }
+
+        if (is_string($command)) {
+            $this->appendConfig('command' . $this->serverName, $command);
             return;
         }
 
-        throw new \InvalidArgumentException("not a valid exception handler");
+        $command = Closure::fromCallable($command);
+        $handler = CommandFactory::create($name, $command->bindTo($this->bound, $this->bound));
+        $handlerId = spl_object_hash($handler);
+        $this->container->set($handlerId, $handler);
+        $this->appendConfig(
+            'commands',
+            $handlerId
+        );
+    }
+
+    /**
+     * Add a new crontab.
+     * @param callable | string $crontab
+     */
+    public function addCrontab(string $rule, $crontab)
+    {
+        $this->config->set('crontab.enable', true);
+        $this->ensureConfigHasValue('processes', CrontabDispatcherProcess::class);
+
+        if ($crontab instanceof Crontab) {
+            $this->appendConfig('crontab.crontab', $crontab);
+            return;
+        }
+
+        $callback = \Closure::fromCallable($crontab);
+        $callback = $callback->bindTo($this->bound, $this->bound);
+        $callbackId = spl_object_hash($callback);
+        $this->container->set($callbackId, $callback);
+        $this->ensureConfigHasValue('processes', CrontabDispatcherProcess::class);
+        $this->config->set('crontab.enable', true);
+
+        $this->appendConfig(
+            'crontab.crontab',
+            (new Crontab())
+                ->setName(uniqid())
+                ->setRule($rule)
+                ->setCallback([CronFactory::class, 'execute', [$callbackId]])
+        );
+    }
+
+    /**
+     * Add a new process.
+     * @param callable | string $process
+     */
+    public function addProcess($process)
+    {
+        if (is_string($process)) {
+            $this->appendConfig('processes', $process);
+            return;
+        }
+
+        $callback = \Closure::fromCallable($process);
+        $callback = $callback->bindTo($this->bound, $this->bound);
+        $process = ProcessFactory::create($callback);
+        $processId = spl_object_hash($process);
+        $this->container->set($processId, $process);
+        $this->appendConfig(
+            'processes',
+            $processId
+        );
+    }
+
+    /**
+     * Add a new route.
+     * @param mixed $httpMethod
+     * @param mixed $handler
+     */
+    public function addRoute($httpMethod, string $route, $handler, array $options = [])
+    {
+        $router = $this->dispatcherFactory->getRouter($this->serverName);
+        if (isset($options['middleware'])) {
+            $this->convertClosureToMiddleware($options['middleware']);
+        }
+        if ($handler instanceof \Closure) {
+            $handler = $handler->bindTo($this->bound, $this->bound);
+        }
+        return $router->addRoute($httpMethod, $route, $handler, $options = []);
+    }
+
+    /**
+     * Add a server.
+     */
+    public function addServer(string $serverName, callable $callback)
+    {
+        $this->serverName = $serverName;
+        call($callback, [$this]);
+        $this->serverName = 'http';
     }
 
     private function appendConfig(string $key, $configValues)
@@ -155,34 +280,41 @@ class App
         $this->config->set($key, $configs);
     }
 
-    /**
-     * Define a value in the DI container
-     * @param string $identifier
-     * @param string $className
-     */
-    public function define(string $identifier, string $className)
+    private function ensureConfigHasValue(string $key, $configValues)
     {
-        if ($this->container instanceof \Hyperf\Contract\ContainerInterface) {
-            $this->container->define($identifier, $className);
+        $config = $this->config->get($key, []);
+        if (! is_array($config)) {
+            return;
         }
-        throw new \InvalidArgumentException("define method is supported when container implements \\Hyperf\\Contract\\ContainerInterface");
+
+        if (in_array($configValues, $config)) {
+            return;
+        }
+
+        array_push($config, $configValues);
+        $this->config->set($key, $config);
     }
 
-    public function __call($name, $arguments)
+    private function addConfig(string $key, $configValues)
     {
-        $router = $this->dispatcherFactory->getRouter($this->serverName);
-        foreach ($arguments as &$argument){
-            if ($argument instanceof \Closure){
-                $argument->bindTo($this->container);
+        $config = $this->config->get($key);
+
+        // config is numeric array
+        if (is_array($config) && Arr::isAssoc($config)) {
+            array_push($config, $configValues);
+            $configValues = $config;
+        }
+
+        $this->config->set($key, $configValues);
+    }
+
+    private function convertClosureToMiddleware(array &$middlewares)
+    {
+        foreach ($middlewares as &$middleware) {
+            if ($middleware instanceof \Closure) {
+                $middleware = $middleware->bindTo($this->bound, $this->bound);
+                $middleware = MiddlewareFactory::create($middleware);
             }
         }
-        return $router->{$name}(...$arguments);
-    }
-
-    public function addServer(string $serverName, callable $callback)
-    {
-        $this->serverName = $serverName;
-        call($callback, [$this]);
-        $this->serverName = 'http';
     }
 }

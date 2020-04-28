@@ -29,8 +29,10 @@
     },
     "require-dev": {
         "friendsofphp/php-cs-fixer": "^2.14",
-        "phpstan/phpstan": "^0.10.5",
+        "hyperf/crontab": "^1.1",
+        "hyperf/process": "^1.1",
         "hyperf/testing": "1.1.*",
+        "phpstan/phpstan": "^0.10.5",
         "swoft/swoole-ide-helper": "dev-master"
     },
     "config": {
@@ -38,7 +40,7 @@
     },
     "scripts": {
         "test": "co-phpunit -c phpunit.xml --colors=always",
-        "analyse": "phpstan analyse --memory-limit 300M -l 0 ./src",
+        "analyse": "phpstan analyse --memory-limit 300M -l 5 ./src",
         "cs-fix": "php-cs-fixer fix $1"
     },
     "extra": {

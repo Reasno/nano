@@ -1,31 +1,25 @@
 <?php
 
-
+declare(strict_types=1);
+/**
+ * This file is part of Hyperf.
+ *
+ * @link     https://www.hyperf.io
+ * @document https://doc.hyperf.io
+ * @contact  group@hyperf.io
+ * @license  https://github.com/hyperf/hyperf/blob/master/LICENSE
+ */
 namespace Hyperf\Nano;
 
-use Hyperf\Contract\StdoutLoggerInterface;
-use Hyperf\Di\Exception\Exception;
-use Hyperf\Framework\Event\AfterWorkerStart;
-use Hyperf\HttpServer\Contract\ResponseInterface;
-use Hyperf\Utils\Context;
-use Psr\Http\Message\ServerRequestInterface;
+use Hyperf\Nano\Factory\AppFactory;
 
-require_once __DIR__.'/../vendor/autoload.php';
+require_once __DIR__ . '/../vendor/autoload.php';
 
 $app = AppFactory::create();
-$app->get('/', function (){
-    $request = Context::get(ServerRequestInterface::class);
-    return $request->getMethod();
-});
-$app->addMiddleware(function($request, $handler) {
-    throw new Exception('bug');
-    return $res->json(['message'=>'ret']);
-});
-$app->addExceptionHandler(function(){
-    $res = $this->get(ResponseInterface::class);
-    return $res->json(['message'=>'ex']);
-});
-$app->addListener(AfterWorkerStart::class, function(){
-   $this->get(StdoutLoggerInterface::class)->info('starting');
+$app->get('/', function ($name) {
+    return $this->response->json([
+        'hello' => $this->request->getQuery('name'),
+        'method' => $this->request->getMethod()
+    ]);
 });
 $app->run();
