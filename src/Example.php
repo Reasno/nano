@@ -18,7 +18,7 @@ require_once __DIR__ . '/../vendor/autoload.php';
 $app = AppFactory::create();
 $app->get('/', function ($name) {
     return $this->response->json([
-        'hello' => $this->request->getQuery('name'),
+        'message' => "hello {$name}",
         'method' => $this->request->getMethod()
     ]);
 });

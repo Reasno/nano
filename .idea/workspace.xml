@@ -1,17 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="c0aab7d1-ed96-4939-83b8-ee002451881b" name="Default Changelist" comment="" />
+    <list default="true" id="c0aab7d1-ed96-4939-83b8-ee002451881b" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/google-java-format.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/nano.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/nano.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/php.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/php.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Example.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Example.php" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="ComposerSettings" synchronizationState="SYNCHRONIZE">
+  <component name="ComposerSettings" doNotAsk="true" synchronizationState="SYNCHRONIZE">
     <pharConfigPath>$PROJECT_DIR$/composer.json</pharConfigPath>
     <execution>
       <executable />
     </execution>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="MacroExpansionManager">
+    <option name="directoryName" value="ludok7ae" />
   </component>
   <component name="PhpWorkspaceProjectConfiguration">
     <include_path>
@@ -105,6 +118,11 @@
       <path value="$PROJECT_DIR$/vendor/vlucas/phpdotenv" />
       <path value="$PROJECT_DIR$/vendor/phpoption/phpoption" />
       <path value="$PROJECT_DIR$/vendor/hyperf/command" />
+      <path value="$PROJECT_DIR$/vendor/hyperf/process" />
+      <path value="$PROJECT_DIR$/vendor/symfony/translation-contracts" />
+      <path value="$PROJECT_DIR$/vendor/symfony/translation" />
+      <path value="$PROJECT_DIR$/vendor/nesbot/carbon" />
+      <path value="$PROJECT_DIR$/vendor/hyperf/crontab" />
     </include_path>
   </component>
   <component name="ProjectId" id="1b4xrdFeXjrRgfhAK8cP3AbkFOx" />
@@ -114,9 +132,18 @@
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
+    <property name="GO_FMT" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
+    <property name="go.import.settings.migrated" value="true" />
+    <property name="go.vendoring.notification.had.been.shown" value="true" />
+  </component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/Factory" />
+    </key>
   </component>
   <component name="SvnConfiguration">
     <configuration />
@@ -129,11 +156,27 @@
       <option name="presentableId" value="Default" />
       <updated>1587905367013</updated>
       <workItem from="1587905371481" duration="11762000" />
+      <workItem from="1588052954539" duration="12023000" />
+      <workItem from="1588068593486" duration="761000" />
+      <workItem from="1588071781580" duration="563000" />
+      <workItem from="1588075039631" duration="60000" />
     </task>
+    <task id="LOCAL-00001" summary="add new functions">
+      <created>1588075062733</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1588075062733</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="1" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="add new functions" />
+    <option name="LAST_COMMIT_MESSAGE" value="add new functions" />
   </component>
   <component name="WindowStateProjectService">
     <state x="1042" y="308" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog" timestamp="1587905494822">
@@ -144,9 +187,23 @@
       <screen x="0" y="0" width="2560" height="1440" />
     </state>
     <state x="1018" y="482" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog/0.0.2560.1440@0.0.2560.1440" timestamp="1587915414668" />
-    <state x="1106" y="543" key="NewPhpClassDialog" timestamp="1587915405385">
-      <screen x="0" y="0" width="2560" height="1440" />
+    <state x="2522" y="457" key="#com.jetbrains.php.refactoring.move.PhpMoveClassDialog#1" timestamp="1588053347863">
+      <screen x="1680" y="23" width="1920" height="1057" />
+    </state>
+    <state x="2522" y="457" key="#com.jetbrains.php.refactoring.move.PhpMoveClassDialog#1/1680.23.1920.1057/0.23.1680.967@1680.23.1920.1057" timestamp="1588053347863" />
+    <state x="2242" y="138" key="CommitChangelistDialog2" timestamp="1588075062562">
+      <screen x="1680" y="23" width="1920" height="1057" />
+    </state>
+    <state x="2242" y="138" key="CommitChangelistDialog2/1680.23.1920.1057/0.23.1680.972@1680.23.1920.1057" timestamp="1588075062562" />
+    <state x="2510" y="400" key="NewPhpClassDialog" timestamp="1588072160904">
+      <screen x="1680" y="23" width="1920" height="999" />
     </state>
     <state x="1106" y="543" key="NewPhpClassDialog/0.0.2560.1440@0.0.2560.1440" timestamp="1587915405385" />
+    <state x="2510" y="422" key="NewPhpClassDialog/1680.23.1920.1057/0.23.1680.967@1680.23.1920.1057" timestamp="1588057075253" />
+    <state x="2510" y="400" key="NewPhpClassDialog/1680.23.1920.999/0.23.1680.1027@1680.23.1920.999" timestamp="1588072160904" />
+    <state x="2198" y="177" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser" timestamp="1588053044729">
+      <screen x="1680" y="23" width="1920" height="1057" />
+    </state>
+    <state x="2198" y="177" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser/1680.23.1920.1057/0.23.1680.967@1680.23.1920.1057" timestamp="1588053044729" />
   </component>
 </project>

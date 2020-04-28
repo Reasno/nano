@@ -15,6 +15,7 @@
       <excludeFolder url="file://$MODULE_DIR$/vendor/hyperf/command" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/hyperf/config" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/hyperf/contract" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/hyperf/crontab" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/hyperf/di" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/hyperf/dispatcher" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/hyperf/event" />
@@ -22,6 +23,7 @@
       <excludeFolder url="file://$MODULE_DIR$/vendor/hyperf/framework" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/hyperf/http-message" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/hyperf/http-server" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/hyperf/process" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/hyperf/server" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/hyperf/testing" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/hyperf/utils" />
@@ -31,6 +33,7 @@
       <excludeFolder url="file://$MODULE_DIR$/vendor/laminas/laminas-stdlib" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/laminas/laminas-zendframework-bridge" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/myclabs/deep-copy" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/nesbot/carbon" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/nette/bootstrap" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/nette/di" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/nette/finder" />
@@ -93,6 +96,8 @@
       <excludeFolder url="file://$MODULE_DIR$/vendor/symfony/process" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/symfony/service-contracts" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/symfony/stopwatch" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/symfony/translation" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/symfony/translation-contracts" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/theseer/tokenizer" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/vlucas/phpdotenv" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/webmozart/assert" />
