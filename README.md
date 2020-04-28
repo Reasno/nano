@@ -14,7 +14,7 @@ use Hyperf\Nano\Factory\AppFactory;
 
 require_once __DIR__ . '/vendor/autoload.php';
 
-$app = AppFactory::create();
+$app = AppFactory::create('0.0.0.0', 9051);
 $app->get('/', function () {
     /** @var ContainerProxy $this */
     $user = $this->request->input('user', 'nano');
@@ -52,6 +52,12 @@ use Hyperf\Nano\ContainerProxy;
 use Hyperf\Nano\Factory\AppFactory;
 
 require_once __DIR__ . '/vendor/autoload.php';
+
+class Foo {
+    public function bar() {
+        return 'bar';
+    }   
+}
 
 $app = AppFactory::create();
 $app->getContainer()->set(Foo::class, new Foo());
