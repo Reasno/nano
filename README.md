@@ -47,7 +47,7 @@ That's all you need.
 
 ## More Examples
 
-### DI container 
+### DI Container 
 ```php
 <?php
 use Hyperf\Nano\ContainerProxy;
@@ -70,7 +70,8 @@ $app->get('/', function () {
 });
 $app->run();
 ```
-> $this are bind to ContainerProxy in all closures provided by nano, including middleware, exception handler and more.
+> As a convention, $this is bind to ContainerProxy in all closures managed by nano, including middleware, exception handler and more.
+
 ### Middleware
 ```php
 <?php
