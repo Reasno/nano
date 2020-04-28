@@ -17,7 +17,7 @@ class ConfigProvider
     {
         return [
             'dependencies' => [
-                BoundInterface::class => Bound::class,
+                BoundInterface::class => ContainerProxy::class,
             ],
             'commands' => [
             ],

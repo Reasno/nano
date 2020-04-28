@@ -65,7 +65,7 @@ class App
         $this->dispatcherFactory = $this->container->get(DispatcherFactory::class);
         $this->bound = $this->container->has(BoundInterface::class)
             ? $this->container->get(BoundInterface::class)
-            : new Bound($this->container);
+            : new ContainerProxy($this->container);
     }
 
     public function __call($name, $arguments)

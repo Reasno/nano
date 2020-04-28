@@ -16,7 +16,9 @@ use Hyperf\Nano\Factory\AppFactory;
 require_once __DIR__ . '/../vendor/autoload.php';
 
 $app = AppFactory::create();
+
 $app->get('/', function ($name) {
+    /** @var $this \Hyperf\Nano\ContainerProxy */
     return $this->response->json([
         'message' => "hello {$name}",
         'method' => $this->request->getMethod()

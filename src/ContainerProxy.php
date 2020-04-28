@@ -15,7 +15,7 @@ use Hyperf\Contract\ContainerInterface;
 use Hyperf\HttpServer\Contract\RequestInterface;
 use Hyperf\HttpServer\Contract\ResponseInterface;
 
-class Bound implements BoundInterface, ContainerInterface
+class ContainerProxy implements BoundInterface, ContainerInterface
 {
     /**
      * @var ContainerInterface
