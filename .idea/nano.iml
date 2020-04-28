@@ -16,6 +16,7 @@
       <excludeFolder url="file://$MODULE_DIR$/vendor/hyperf/config" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/hyperf/contract" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/hyperf/crontab" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/hyperf/db" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/hyperf/di" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/hyperf/dispatcher" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/hyperf/event" />
@@ -23,6 +24,7 @@
       <excludeFolder url="file://$MODULE_DIR$/vendor/hyperf/framework" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/hyperf/http-message" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/hyperf/http-server" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/hyperf/pool" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/hyperf/process" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/hyperf/server" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/hyperf/testing" />

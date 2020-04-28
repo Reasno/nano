@@ -29,11 +29,13 @@ $app->run();
 ```
 
 Run
+
 ```bash
 php index.php start
 ```
 
 ## Feature
+
 * No skeleton.
 * Fast startup.
 * Zero config.
@@ -169,6 +171,31 @@ require_once __DIR__ . '/vendor/autoload.php';
 $app = AppFactory::create();
 $app->addCrontab('* * * * * *', function(){
     $this->get(StdoutLoggerInterface::class)->info('execute every second!');
+});
+$app->run();
+```
+
+### Use existing Hyperf Component.
+
+```php
+<?php
+use Hyperf\DB\DB;
+use Hyperf\Nano\Factory\AppFactory;
+
+require_once __DIR__ . '/vendor/autoload.php';
+
+$app = AppFactory::create();
+$app->config([
+    'db.default' => [
+        'host' => env('DB_HOST', 'localhost'),
+        'port' => env('DB_PORT', 3306),
+        'database' => env('DB_DATABASE', 'hyperf'),
+        'username' => env('DB_USERNAME', 'root'),
+        'password' => env('DB_PASSWORD', ''),
+    ]
+]);
+$app->addRoute(['GET', 'POST'], '/', function(){
+    return DB::query('SELECT * FROM `user` WHERE gender = ?;', [1]);
 });
 $app->run();
 ```

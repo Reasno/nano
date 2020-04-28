@@ -2,11 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="c0aab7d1-ed96-4939-83b8-ee002451881b" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/google-java-format.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/nano.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/nano.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/php.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/php.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/composer.json" beforeDir="false" afterPath="$PROJECT_DIR$/composer.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Example.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Example.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -17,7 +17,7 @@
   <component name="ComposerSettings" doNotAsk="true" synchronizationState="SYNCHRONIZE">
     <pharConfigPath>$PROJECT_DIR$/composer.json</pharConfigPath>
     <execution>
-      <executable />
+      <executable path="composer" />
     </execution>
   </component>
   <component name="Git.Settings">
@@ -123,9 +123,12 @@
       <path value="$PROJECT_DIR$/vendor/symfony/translation" />
       <path value="$PROJECT_DIR$/vendor/nesbot/carbon" />
       <path value="$PROJECT_DIR$/vendor/hyperf/crontab" />
+      <path value="$PROJECT_DIR$/vendor/hyperf/pool" />
+      <path value="$PROJECT_DIR$/vendor/hyperf/db" />
     </include_path>
   </component>
   <component name="ProjectId" id="1b4xrdFeXjrRgfhAK8cP3AbkFOx" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showExcludedFiles" value="true" />
@@ -144,6 +147,12 @@
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/src/Factory" />
     </key>
+  </component>
+  <component name="RunManager">
+    <configuration name="phpunit.xml" type="PHPUnitRunConfigurationType" factoryName="PHPUnit">
+      <TestRunner scope="XML" />
+      <method v="2" />
+    </configuration>
   </component>
   <component name="SvnConfiguration">
     <configuration />
@@ -168,7 +177,21 @@
       <option name="project" value="LOCAL" />
       <updated>1588075062733</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="add new functions">
+      <created>1588086919707</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1588086919707</updated>
+    </task>
+    <task id="LOCAL-00003" summary="add new functions">
+      <created>1588089154675</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1588089154675</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -179,10 +202,10 @@
     <option name="LAST_COMMIT_MESSAGE" value="add new functions" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="1042" y="308" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog" timestamp="1587905494822">
+    <state x="1042" y="0" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog" timestamp="1588086426746">
       <screen x="0" y="0" width="2560" height="1440" />
     </state>
-    <state x="1042" y="308" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog/0.0.2560.1440@0.0.2560.1440" timestamp="1587905494822" />
+    <state x="1042" y="0" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog/0.0.2560.1440@0.0.2560.1440" timestamp="1588086426746" />
     <state x="1018" y="482" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog" timestamp="1587915414668">
       <screen x="0" y="0" width="2560" height="1440" />
     </state>
@@ -191,9 +214,10 @@
       <screen x="1680" y="23" width="1920" height="1057" />
     </state>
     <state x="2522" y="457" key="#com.jetbrains.php.refactoring.move.PhpMoveClassDialog#1/1680.23.1920.1057/0.23.1680.967@1680.23.1920.1057" timestamp="1588053347863" />
-    <state x="2242" y="138" key="CommitChangelistDialog2" timestamp="1588075062562">
-      <screen x="1680" y="23" width="1920" height="1057" />
+    <state x="749" y="157" key="CommitChangelistDialog2" timestamp="1588089154528">
+      <screen x="0" y="0" width="2560" height="1440" />
     </state>
+    <state x="749" y="157" key="CommitChangelistDialog2/0.0.2560.1440@0.0.2560.1440" timestamp="1588089154528" />
     <state x="2242" y="138" key="CommitChangelistDialog2/1680.23.1920.1057/0.23.1680.972@1680.23.1920.1057" timestamp="1588075062562" />
     <state x="2510" y="400" key="NewPhpClassDialog" timestamp="1588072160904">
       <screen x="1680" y="23" width="1920" height="999" />
@@ -201,6 +225,10 @@
     <state x="1106" y="543" key="NewPhpClassDialog/0.0.2560.1440@0.0.2560.1440" timestamp="1587915405385" />
     <state x="2510" y="422" key="NewPhpClassDialog/1680.23.1920.1057/0.23.1680.967@1680.23.1920.1057" timestamp="1588057075253" />
     <state x="2510" y="400" key="NewPhpClassDialog/1680.23.1920.999/0.23.1680.1027@1680.23.1920.999" timestamp="1588072160904" />
+    <state x="880" y="460" key="Vcs.Push.Dialog.v2" timestamp="1588086925313">
+      <screen x="0" y="0" width="2560" height="1440" />
+    </state>
+    <state x="880" y="460" key="Vcs.Push.Dialog.v2/0.0.2560.1440@0.0.2560.1440" timestamp="1588086925313" />
     <state x="2198" y="177" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser" timestamp="1588053044729">
       <screen x="1680" y="23" width="1920" height="1057" />
     </state>
