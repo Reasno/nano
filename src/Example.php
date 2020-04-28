@@ -18,10 +18,12 @@ require_once __DIR__ . '/../vendor/autoload.php';
 $app = AppFactory::create();
 $app->get('/', function () {
     /** @var ContainerProxy $this */
-    $name = $this->request->getQueryParams()['name'] ?? 'nano';
-    return $this->response->json([
-        'message' => "hello {$name}",
-        'method' => $this->request->getMethod()
-    ]);
+    $user = $this->request->input('user', 'nano');
+    $method = $this->request->getMethod();
+
+    return [
+        'message' => "hello {$user}",
+        'method' => $method,
+    ];
 });
 $app->run();
