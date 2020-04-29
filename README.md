@@ -60,11 +60,11 @@ require_once __DIR__ . '/vendor/autoload.php';
 $app = AppFactory::create();
 
 $app->addGroup('/nano', function () use ($app) {
-    $app->addRoute(['GET', 'POST'], '/{id:\d+}', function() {
-        return 'first route';
+    $app->addRoute(['GET', 'POST'], '/{id:\d+}', function($id) {
+        return '/nano/'.$id;
     });
-    $app->put('/{name:.+}', function() {
-        return 'another route';
+    $app->put('/{name:.+}', function($name) {
+        return '/nano/'.$name;
     });
 });
 
@@ -86,8 +86,8 @@ class Foo {
 }
 
 $app = AppFactory::create();
-
 $app->getContainer()->set(Foo::class, new Foo());
+
 $app->get('/', function () {
     /** @var ContainerProxy $this */
     $foo = $this->get(Foo::class);
