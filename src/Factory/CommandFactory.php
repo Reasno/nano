@@ -15,7 +15,7 @@ use Hyperf\Command\Command;
 
 class CommandFactory
 {
-    public static function create(string $name, \Closure $closure): Command
+    public function create(string $name, \Closure $closure): Command
     {
         return new class($name, $closure) extends Command {
             private $closure;

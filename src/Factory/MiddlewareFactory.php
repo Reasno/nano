@@ -18,7 +18,7 @@ use Psr\Http\Server\RequestHandlerInterface;
 
 class MiddlewareFactory
 {
-    public static function create(\Closure $closure): MiddlewareInterface
+    public function create(\Closure $closure): MiddlewareInterface
     {
         return new class($closure) implements MiddlewareInterface {
             /**
