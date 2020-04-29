@@ -125,6 +125,7 @@ $app->run();
 
 ```php
 <?php
+use Hyperf\HttpMessage\Stream\SwooleStream;
 use Hyperf\Nano\Factory\AppFactory;
 
 require_once __DIR__ . '/vendor/autoload.php';
@@ -138,7 +139,7 @@ $app->get('/', function () {
 });
 
 $app->addExceptionHandler(function ($throwable, $response) {
-    return $response->withStatus('418', 'I\'m a teapot');
+    return $response->withStatus('418')->withBody(new SwooleStream('I\'m a teapot'));
 });
 
 $app->run();

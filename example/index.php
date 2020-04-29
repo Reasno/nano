@@ -13,6 +13,7 @@ namespace Hyperf\Nano;
 
 use Hyperf\Contract\StdoutLoggerInterface;
 use Hyperf\Framework\Event\BootApplication;
+use Hyperf\HttpMessage\Stream\SwooleStream;
 use Hyperf\Nano\Factory\AppFactory;
 use Hyperf\DB\DB;
 
@@ -64,7 +65,7 @@ $app->get('/exception', function () {
 });
 
 $app->addExceptionHandler(function ($throwable, $response) {
-    return $response->withStatus('418', 'I\'m a teapot');
+    return $response->withStatus('418')->withBody(new SwooleStream('I\'m a teapot'));
 });
 
 $app->addCommand('echo', function(){
