@@ -138,7 +138,7 @@ $app->get('/', function () {
 });
 
 $app->addExceptionHandler(function ($throwable, $response) {
-    return $response->withStatus('403', 'not allowed');
+    return $response->withStatus('418', 'I\'m a teapot');
 });
 
 $app->run();

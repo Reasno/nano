@@ -12,11 +12,6 @@
             "Hyperf\\Nano\\": "src/"
         }
     },
-    "autoload-dev": {
-        "psr-4": {
-            "HyperfTest\\": "tests"
-        }
-    },
     "require": {
         "php": ">=7.2",
         "ext-swoole": ">=4.4",

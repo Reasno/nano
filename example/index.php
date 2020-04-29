@@ -16,7 +16,7 @@ use Hyperf\Framework\Event\BootApplication;
 use Hyperf\Nano\Factory\AppFactory;
 use Hyperf\DB\DB;
 
-require_once __DIR__ . '/vendor/autoload.php';
+require_once __DIR__ . '/../vendor/autoload.php';
 
 class Foo {
     public function bar() {
@@ -27,15 +27,12 @@ class Foo {
 $app = AppFactory::create();
 
 $app->get('/', function () {
-
     $user = $this->request->input('user', 'nano');
     $method = $this->request->getMethod();
-
     return [
         'message' => "hello {$user}",
         'method' => $method,
     ];
-
 });
 
 $app->addGroup('/route', function () use ($app) {
@@ -67,7 +64,7 @@ $app->get('/exception', function () {
 });
 
 $app->addExceptionHandler(function ($throwable, $response) {
-    return $response->withStatus('403', 'not allowed');
+    return $response->withStatus('418', 'I\'m a teapot');
 });
 
 $app->addCommand('echo', function(){
