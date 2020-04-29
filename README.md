@@ -245,7 +245,7 @@ $app->config([
     ]
 ]);
 
-$app->addRoute(['GET', 'POST'], '/', function(){
+$app->get('/', function(){
     return DB::query('SELECT * FROM `user` WHERE gender = ?;', [1]);
 });
 
