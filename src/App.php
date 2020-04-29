@@ -317,7 +317,7 @@ class App
             return;
         }
 
-        $this->config->set($key, array_merge($configValues, $config));
+        $this->config->set($key, array_merge_recursive($configValues, $config));
     }
 
     private function convertClosureToMiddleware(array &$middlewares)

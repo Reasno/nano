@@ -21,6 +21,8 @@ use Hyperf\Di\Definition\DefinitionSource;
 use Hyperf\Di\Definition\ScanConfig;
 use Hyperf\HttpServer\Router\DispatcherFactory;
 use Hyperf\Nano\App;
+use Hyperf\Nano\BoundInterface;
+use Hyperf\Nano\ContainerProxy;
 use Hyperf\Utils\ApplicationContext;
 use Psr\Log\LogLevel;
 
@@ -46,9 +48,8 @@ class AppFactory
 
     public static function parepareContainer(string $host, int $port): ContainerInterface
     {
-        $container = new Container(new DefinitionSource([], new ScanConfig()));
         $config = new Config(ProviderConfig::load());
-        $config->set('server', include __DIR__ . '/Server.php');
+        $config->set('server', include __DIR__ . '/../Preset/Server.php');
         $config->set('server.servers.0.host', $host);
         $config->set('server.servers.0.port', $port);
         $config->set(StdoutLoggerInterface::class, [
@@ -63,11 +64,10 @@ class AppFactory
                 LogLevel::WARNING,
             ],
         ]);
+        $container = new Container(new DefinitionSource($config->get('dependencies'), new ScanConfig()));
         $container->set(ConfigInterface::class, $config);
-        foreach ($config->get('dependencies') as $key => $value) {
-            $container->define($key, $value);
-        }
         $container->define(DispatcherFactory::class, DispatcherFactory::class);
+        $container->define(BoundInterface::class, ContainerProxy::class);
         return $container;
     }
 }

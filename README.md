@@ -126,7 +126,6 @@ $app->run();
 ```php
 <?php
 use Hyperf\Nano\Factory\AppFactory;
-use Psr\Http\Message\ResponseInterface;
 
 require_once __DIR__ . '/vendor/autoload.php';
 
@@ -138,7 +137,7 @@ $app->get('/', function () {
     throw new \Exception();
 });
 
-$app->addExceptionHandler(function ($throwable, ResponseInterface $response) {
+$app->addExceptionHandler(function ($throwable, $response) {
     return $response->withStatus('403', 'not allowed');
 });
 
