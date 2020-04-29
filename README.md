@@ -92,6 +92,8 @@ $app->addMiddleware(function ($request, $handler) {
 $app->run();
 ```
 
+> In addition to closure, all $app->addXXX() methods also accept class name as argument. You can pass any corresponding hyperf classes.
+
 ### ExceptionHandler
 
 ```php
